@@ -36,32 +36,23 @@ public class DataSource {
             Connection sql_con = DriverManager.getConnection(LINK, USERNAME, PASSWORD);
             
             // Setup Database
-            if(!isDBExists("crud_app")) {
+            if(!isDBExists("car_rental_management_system")) {
                 Statement Query = sql_con.createStatement();
                 Query.executeUpdate(
-                        "CREATE DATABASE crud_app;"
+                        "CREATE DATABASE car_rental_management_system;"
                 );
             }
             
             Statement UseDBQuery = sql_con.createStatement();
             UseDBQuery.executeUpdate(
-                    "USE crud_app;"
+                    "USE car_rental_management_system;"
             );
             
             // Setup Tables
-            if(!isTableExists("Customer")) {
+            if(!isTableExists("Car")) {
                     Statement Query = sql_con.createStatement();
                     Query.executeUpdate(
-                            "CREATE TABLE Customer ("
-                            + "CustNo INTEGER(10) PRIMARY KEY AUTO_INCREMENT,"
-                            + "CustFName VARCHAR(20) NOT NULL,"
-                            + "CustLName VARCHAR(20) NOT NULL,"
-                            + "CustSex CHAR(1) NOT NULL,"
-                            + "CustDOB DATE NOT NULL,"
-                            + "CustAddr VARCHAR(255) NOT NULL,"
-                            + "CustContactNo VARCHAR(15) NOT NULL,"
-                            + "CustEmail VARCHAR(50) NOT NULL,"
-                            + "CHECK ( CustSex in ('M', 'F') ))"
+                            "CREATE TABLE Car ()"
                     );
                 }
         }

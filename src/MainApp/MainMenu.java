@@ -36,8 +36,10 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         GenerateButton = new javax.swing.JButton();
-        Renter = new javax.swing.JButton();
-        Customer = new javax.swing.JButton();
+        ReturnCar = new javax.swing.JButton();
+        RentCar = new javax.swing.JButton();
+        RemoveCar = new javax.swing.JButton();
+        AddCar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -60,37 +62,77 @@ public class MainMenu extends javax.swing.JFrame {
         GenerateButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         GenerateButton.setText("Generate Report");
         GenerateButton.setToolTipText("");
+        GenerateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GenerateButtonActionPerformed(evt);
+            }
+        });
 
-        Renter.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        Renter.setText("Operator/Owner");
-        Renter.setToolTipText("");
+        ReturnCar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        ReturnCar.setText("Return Car");
+        ReturnCar.setToolTipText("");
+        ReturnCar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReturnCarActionPerformed(evt);
+            }
+        });
 
-        Customer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        Customer.setText("Customer");
-        Customer.setToolTipText("");
+        RentCar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        RentCar.setText("Rent Car");
+        RentCar.setToolTipText("");
+        RentCar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RentCarActionPerformed(evt);
+            }
+        });
+
+        RemoveCar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        RemoveCar.setText("Remove Car");
+        RemoveCar.setToolTipText("");
+        RemoveCar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemoveCarActionPerformed(evt);
+            }
+        });
+
+        AddCar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        AddCar.setText("Add Car");
+        AddCar.setToolTipText("");
+        AddCar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddCarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(119, 119, 119)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(Customer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(GenerateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Renter, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(RentCar, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(RemoveCar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ReturnCar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(GenerateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(AddCar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(119, 119, 119))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(59, Short.MAX_VALUE)
-                .addComponent(Renter)
-                .addGap(18, 18, 18)
-                .addComponent(Customer)
-                .addGap(18, 18, 18)
+                .addContainerGap(35, Short.MAX_VALUE)
+                .addComponent(AddCar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(RemoveCar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(RentCar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ReturnCar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(GenerateButton)
-                .addGap(45, 45, 45))
+                .addGap(31, 31, 31))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -112,6 +154,26 @@ public class MainMenu extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void GenerateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerateButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_GenerateButtonActionPerformed
+
+    private void ReturnCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReturnCarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ReturnCarActionPerformed
+
+    private void RentCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RentCarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RentCarActionPerformed
+
+    private void RemoveCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveCarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RemoveCarActionPerformed
+
+    private void AddCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddCarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AddCarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -122,19 +184,10 @@ public class MainMenu extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            javax.swing.UIManager.setLookAndFeel(new com.formdev.flatlaf.FlatLightLaf());
+        }
+        catch (javax.swing.UnsupportedLookAndFeelException ex)
+        {
             java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -148,9 +201,11 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Customer;
+    private javax.swing.JButton AddCar;
     private javax.swing.JButton GenerateButton;
-    private javax.swing.JButton Renter;
+    private javax.swing.JButton RemoveCar;
+    private javax.swing.JButton RentCar;
+    private javax.swing.JButton ReturnCar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
