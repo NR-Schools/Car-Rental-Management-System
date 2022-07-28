@@ -13,11 +13,10 @@ public class ConcreteFactory extends IFactory {
     private ICar car;
 
     @Override
-    protected ICar createProduct(int objectRequest) {
-        // Create Car
-        if (objectRequest == 0) car = new MiniVan();
-        else if (objectRequest == 1) car = new SUV();
-        
+    protected ICar createProduct(String objectRequest) {
+        if(objectRequest == "Mitsubishi") car =  new MitsubishiCar();
+        if(objectRequest == "Nissan") car =  new NissanCar();
+        if(objectRequest == "Jeep") car =  new JeepCar();
         return car;
     }
     

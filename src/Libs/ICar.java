@@ -5,17 +5,27 @@
  */
 package Libs;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  *
  * @author hp
  */
 public interface ICar {
-    public String getBrand();
+    public int getID();
     public String getModel();
-    public String getDescription();
+    public String getBrand();
+    public String getDesc();
+    public double getPrice();
     public boolean getStatus();
-    public String getRentPrice();
-    public Date getDateAvailable();
+    public Date getReturnDate();
+    public Customer getRentCust();
+    
+    public void setID(int ID);
+    public void setModel(String model);
+    public void setDesc(String desc);
+    public void setPrice(double price);
+    public void setStatus(boolean status);
+    public void setReturnDate(Date returnDate);
+    public void setRentCust(Customer rentCust);
 }

@@ -11,8 +11,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,41 +27,10 @@ public class DataSource {
     private final String LINK = "jdbc:mysql://localhost?useTimezone=true&serverTimezone=UTC";
     private final String CONNECTOR = "com.mysql.cj.jdbc.Driver";
     
-    public enum Type {}
+    public enum Type { Customer, Car }
     
     private static DataSource instance;
     private DataSource() {
-        try { Class.forName(CONNECTOR); } catch(ClassNotFoundException ex) {}
-        
-        try
-        {
-            Connection sql_con = DriverManager.getConnection(LINK, USERNAME, PASSWORD);
-            
-            // Setup Database
-            if(!isDBExists("car_rental_management_system")) {
-                Statement Query = sql_con.createStatement();
-                Query.executeUpdate(
-                        "CREATE DATABASE car_rental_management_system;"
-                );
-            }
-            
-            Statement UseDBQuery = sql_con.createStatement();
-            UseDBQuery.executeUpdate(
-                    "USE car_rental_management_system;"
-            );
-            
-            // Setup Tables
-            if(!isTableExists("Car")) {
-                    Statement Query = sql_con.createStatement();
-                    Query.executeUpdate(
-                            "CREATE TABLE Car ()"
-                    );
-                }
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     
     public static DataSource getInstance() {
@@ -69,11 +40,112 @@ public class DataSource {
     }
     
     public void addData(Type type, Object Data) {
-        //
+        try
+        {
+            Connection sql_con = DriverManager.getConnection(LINK, USERNAME, PASSWORD);
+            
+            String QueryStr = "";
+            
+            switch(type)
+            {
+                case Customer:
+                    Customer customer = (Customer) Data;
+                    QueryStr = String.format("INSERT INTO Customer VALUES(null, \"%s\", \"%s\", \"%s\");",
+                            customer.getName(), customer.getContactNum(), customer.getAddress());
+                    break;
+                case Car:
+                    ICar car = (ICar) Data;
+                    QueryStr = String.format("INSERT INTO Car VALUES(null, \"%s\", \"%s\", \"9.8\", \"%d\", \"%s\", null);",
+                            car.getModel(), car.getBrand(), car.getPrice(), car.getStatus(), car.getReturnDate(), car.getRentCust().getID());
+                    break;
+            }
+            
+            Statement SetDB = sql_con.createStatement();
+            SetDB.executeUpdate("USE sa2;");
+            
+            Statement Query = sql_con.createStatement();
+            Query.executeUpdate(QueryStr);
+            
+            sql_con.close();
+        }
+        catch(SQLException ex)
+        {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public Object readAllData(Type type) {
-        //
+    public ArrayList<Object> readAllData(Type type) {
+        try
+        {
+            Statement Query;
+            ResultSet results;
+            ArrayList<Object> objects = new ArrayList<>();
+            Connection sql_con = DriverManager.getConnection(LINK, USERNAME, PASSWORD);
+            
+            String QueryStr = "";
+            
+            Statement SetDB = sql_con.createStatement();
+            SetDB.executeUpdate("USE sa2;");
+            
+            switch(type)
+            {
+                case Customer:
+                    Query = sql_con.createStatement();
+                    results = Query.executeQuery("SELECT * FROM Customer");
+                    while(results.next()) {
+                        Customer cust = new Customer();
+                        cust.setID(results.getInt("cust_id"));
+                        cust.setName(results.getString("cust_name"));
+                        cust.setContactNum(results.getString("cust_contact"));
+                        cust.setAddress(results.getString("cust_address"));
+                        
+                        objects.add(cust);
+                    }
+                    break;
+                case Car:
+                    Query = sql_con.createStatement();
+                    results = Query.executeQuery("SELECT * FROM Car");
+                    while(results.next()) {
+                        
+                        // Switch Depending on Brand
+                        ConcreteFactory cF = new ConcreteFactory();
+                        ICar car = cF.createProduct(results.getString("car_brand"));
+                        car.setModel(results.getString("car_model"));
+                        car.setID(results.getInt("car_id"));
+                        car.setDesc(results.getString("car_desc"));
+                        car.setPrice(results.getDouble("car_price"));
+                        car.setStatus(results.getBoolean("car_status"));
+                        car.setReturnDate(results.getDate("car_returndate"));
+                        
+                        Integer rentcust_id = results.getInt("car_rentcust");
+                        
+                        if(true) continue;
+                        
+                        ResultSet sub_result = Query.executeQuery(
+                            String.format("SELECT * FROM Customer WHERE cust_id = \"%d\"",
+                                    rentcust_id)
+                        );
+                        while(sub_result.next()) {
+                            Customer cust = new Customer();
+                            cust.setID(results.getInt("cust_id"));
+                            cust.setName(results.getString("cust_name"));
+                            cust.setContactNum(results.getString("cust_contact"));
+                            cust.setAddress(results.getString("cust_address"));
+                            
+                            car.setRentCust(cust);
+                        }
+                    }
+                    break;
+            }
+            
+            sql_con.close();
+        }
+        catch(SQLException ex)
+        {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return null;
     }
 
@@ -83,46 +155,5 @@ public class DataSource {
     
     public void removeData(Type type, int refId) {
         //
-    }
-    
-    // Source: https://stackoverflow.com/questions/838978/how-to-check-if-mysql-database-exists
-    private boolean isDBExists(String DatabaseName) {
-        try {
-            Connection sql_con = DriverManager.getConnection(LINK, USERNAME, PASSWORD);
-        
-            try (ResultSet resultSet = sql_con.getMetaData().getCatalogs()) {
-                while (resultSet.next()) {
-                    String databaseName = resultSet.getString(1);
-                    if(databaseName.equals(DatabaseName)){
-                        return true;
-                    }
-                }
-            }
-        }
-        catch(SQLException ex) {
-            Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return false;
-    }
-    
-    private boolean isTableExists(String TableName) {
-        try {
-            Connection sql_con = DriverManager.getConnection(LINK, USERNAME, PASSWORD);
-            
-            Statement Query = sql_con.createStatement();
-            Query.executeUpdate(
-                    "USE crud_app;"
-            );
-            
-            DatabaseMetaData meta = sql_con.getMetaData();
-            ResultSet resultSet = meta.getTables("crud_app", null, TableName, new String[] {"TABLE"});
-            return resultSet.next();
-        
-        }
-        catch(SQLException ex) {
-            Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
     }
 }

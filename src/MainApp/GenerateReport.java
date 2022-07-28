@@ -16,6 +16,30 @@ public class GenerateReport extends javax.swing.JFrame {
      */
     public GenerateReport() {
         initComponents();
+        
+        // Initialize All Filters As Disabled
+        setModelFilterStatus(false);
+        setPriceFilterStatus(false);
+    }
+    
+    private void setModelFilterStatus(boolean status) {
+        ModelNameLabel.setEnabled(status);
+        ModelNameField.setEnabled(status);
+    }
+    
+    private void setPriceFilterStatus(boolean status) {
+        PriceRangeLabel.setEnabled(status);
+        PriceRange_to.setEnabled(status);
+        LowerBoundPriceField.setEnabled(status);
+        UpperBoundPriceField.setEnabled(status);
+    }
+    
+    private void UpdateTableFromPriceRange() {
+        // Check If Lower Bound Is Lower Than Higher Bound, If not, exit immediately
+        
+        // Remove All Contents From JTable
+        // Loop All Contents then Check those who have matched Within or Equal the Lower and Higher Bound Prices
+        // Add Filtered Contents to JTable
     }
 
     /**
@@ -29,19 +53,22 @@ public class GenerateReport extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        ModelNameField = new javax.swing.JTextField();
+        LowerBoundPriceField = new javax.swing.JTextField();
+        UpperBoundPriceField = new javax.swing.JTextField();
+        FilterChoiceLabel = new javax.swing.JLabel();
+        ModelNameLabel = new javax.swing.JLabel();
+        PriceRangeLabel = new javax.swing.JLabel();
+        PriceRange_to = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
+        FilterChoice = new javax.swing.JComboBox<>();
+        ModelNameLabel1 = new javax.swing.JLabel();
+        ModelNameField1 = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jTable1.setAutoCreateRowSorter(true);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -55,19 +82,35 @@ public class GenerateReport extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ModelNameField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ModelNameFieldKeyTyped(evt);
+            }
+        });
 
-        jTextField2.setText("00");
+        LowerBoundPriceField.setText("00");
+        LowerBoundPriceField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                LowerBoundPriceFieldKeyTyped(evt);
+            }
+        });
 
-        jTextField3.setText("00");
+        UpperBoundPriceField.setText("00");
+        UpperBoundPriceField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                UpperBoundPriceFieldKeyTyped(evt);
+            }
+        });
 
-        jLabel1.setText("Search Type:");
+        FilterChoiceLabel.setText("Filter By:");
 
-        jLabel2.setText("Model Name:");
+        ModelNameLabel.setText("Model Name:");
 
-        jLabel3.setText("Price Range:");
+        PriceRangeLabel.setText("Price Range:");
 
-        jLabel4.setText("to");
+        PriceRange_to.setText("to");
+
+        jPanel1.setBackground(new java.awt.Color(255, 204, 51));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -77,40 +120,60 @@ public class GenerateReport extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 968, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
         );
 
+        FilterChoice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Model Name", "Price Range" }));
+        FilterChoice.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                FilterChoiceItemStateChanged(evt);
+            }
+        });
+
+        ModelNameLabel1.setText("Model Name:");
+
+        ModelNameField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ModelNameField1KeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
+                .addComponent(FilterChoiceLabel)
+                .addGap(27, 27, 27)
+                .addComponent(FilterChoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ModelNameLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(69, 69, 69)
-                .addComponent(jLabel3)
+                .addComponent(ModelNameField1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(ModelNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ModelNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(PriceRangeLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(LowerBoundPriceField, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11)
-                .addComponent(jLabel4)
+                .addComponent(PriceRange_to)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(UpperBoundPriceField, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 868, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,20 +181,65 @@ public class GenerateReport extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
+                    .addComponent(ModelNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LowerBoundPriceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(UpperBoundPriceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(FilterChoiceLabel)
+                    .addComponent(ModelNameLabel)
+                    .addComponent(PriceRangeLabel)
+                    .addComponent(PriceRange_to)
+                    .addComponent(FilterChoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ModelNameField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ModelNameLabel1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void FilterChoiceItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_FilterChoiceItemStateChanged
+        // TODO add your handling code here:
+        switch (FilterChoice.getSelectedIndex()) {
+            case 0:
+                setModelFilterStatus(true);
+                setPriceFilterStatus(false);
+                break;
+            case 1:
+                setModelFilterStatus(false);
+                setPriceFilterStatus(true);
+                break;
+        }
+        
+        // <OPTIONAL TODO>: Reset Table Contents To Unfiltered
+    }//GEN-LAST:event_FilterChoiceItemStateChanged
+
+    private void ModelNameFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ModelNameFieldKeyTyped
+        // TODO add your handling code here:
+        
+        // TODO: Update Table Contents through Filtering
+        // Get "Word Filter"
+        // Remove All Contents From JTable
+        // Loop All Contents then Check those who have matched "Word Filter"
+        // Add Filtered Contents to JTable
+    }//GEN-LAST:event_ModelNameFieldKeyTyped
+
+    private void LowerBoundPriceFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_LowerBoundPriceFieldKeyTyped
+        // TODO add your handling code here:
+        // Only Call The Function Below If Inputs Are Checked To Be All Number
+        UpdateTableFromPriceRange();
+    }//GEN-LAST:event_LowerBoundPriceFieldKeyTyped
+
+    private void UpperBoundPriceFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_UpperBoundPriceFieldKeyTyped
+        // TODO add your handling code here:
+        // Only Call The Function Below If Inputs Are Checked To Be All Number
+        UpdateTableFromPriceRange();
+    }//GEN-LAST:event_UpperBoundPriceFieldKeyTyped
+
+    private void ModelNameField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ModelNameField1KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ModelNameField1KeyTyped
 
     /**
      * @param args the command line arguments
@@ -161,17 +269,19 @@ public class GenerateReport extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JComboBox<String> FilterChoice;
+    private javax.swing.JLabel FilterChoiceLabel;
+    private javax.swing.JTextField LowerBoundPriceField;
+    private javax.swing.JTextField ModelNameField;
+    private javax.swing.JTextField ModelNameField1;
+    private javax.swing.JLabel ModelNameLabel;
+    private javax.swing.JLabel ModelNameLabel1;
+    private javax.swing.JLabel PriceRangeLabel;
+    private javax.swing.JLabel PriceRange_to;
+    private javax.swing.JTextField UpperBoundPriceField;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }

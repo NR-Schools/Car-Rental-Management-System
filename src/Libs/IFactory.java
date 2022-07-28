@@ -10,9 +10,9 @@ package Libs;
  * @author hp
  */
 public abstract class IFactory {
-    protected abstract ICar createProduct(int objectRequest);
+    protected abstract ICar createProduct(String objectRequest);
     
-    public ICar doSomething(int object) {
+    public ICar doSomething(String object) {
         ICar color = createProduct(object);
         return color;
     }

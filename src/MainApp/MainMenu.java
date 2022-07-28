@@ -5,6 +5,7 @@
  */
 package MainApp;
 
+
 /**
  *
  * @author hp
@@ -14,12 +15,18 @@ public class MainMenu extends javax.swing.JFrame {
     /**
      * Creates new form MainMenu
      */
-    
+    private CustomerFrame customerFrame;
+    private CarFrame removeCarFrame;
+    private RentCar rentCarFrame;
+    private ReturnCar returnCarFrame;
     private GenerateReport generateReportFrame;
     
     public MainMenu() {
         initComponents();
-        
+        customerFrame = new CustomerFrame();
+        removeCarFrame = new CarFrame();
+        rentCarFrame = new RentCar();
+        returnCarFrame = new ReturnCar();
         generateReportFrame = new GenerateReport();
     }
 
@@ -39,7 +46,7 @@ public class MainMenu extends javax.swing.JFrame {
         ReturnCar = new javax.swing.JButton();
         RentCar = new javax.swing.JButton();
         RemoveCar = new javax.swing.JButton();
-        AddCar = new javax.swing.JButton();
+        Customer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -87,7 +94,7 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         RemoveCar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        RemoveCar.setText("Remove Car");
+        RemoveCar.setText("Cars");
         RemoveCar.setToolTipText("");
         RemoveCar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,12 +102,12 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        AddCar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        AddCar.setText("Add Car");
-        AddCar.setToolTipText("");
-        AddCar.addActionListener(new java.awt.event.ActionListener() {
+        Customer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        Customer.setText("Customers");
+        Customer.setToolTipText("");
+        Customer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddCarActionPerformed(evt);
+                CustomerActionPerformed(evt);
             }
         });
 
@@ -116,14 +123,14 @@ public class MainMenu extends javax.swing.JFrame {
                         .addComponent(RemoveCar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(ReturnCar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(GenerateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(AddCar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(Customer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(119, 119, 119))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(35, Short.MAX_VALUE)
-                .addComponent(AddCar)
+                .addComponent(Customer)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(RemoveCar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -156,23 +163,28 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void GenerateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerateButtonActionPerformed
         // TODO add your handling code here:
+        generateReportFrame.setVisible(true);
     }//GEN-LAST:event_GenerateButtonActionPerformed
 
     private void ReturnCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReturnCarActionPerformed
         // TODO add your handling code here:
+        returnCarFrame.setVisible(true);
     }//GEN-LAST:event_ReturnCarActionPerformed
 
     private void RentCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RentCarActionPerformed
         // TODO add your handling code here:
+        rentCarFrame.setVisible(true);
     }//GEN-LAST:event_RentCarActionPerformed
 
     private void RemoveCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveCarActionPerformed
         // TODO add your handling code here:
+        removeCarFrame.setVisible(true);
     }//GEN-LAST:event_RemoveCarActionPerformed
 
-    private void AddCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddCarActionPerformed
+    private void CustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CustomerActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_AddCarActionPerformed
+        customerFrame.setVisible(true);
+    }//GEN-LAST:event_CustomerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -201,7 +213,7 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AddCar;
+    private javax.swing.JButton Customer;
     private javax.swing.JButton GenerateButton;
     private javax.swing.JButton RemoveCar;
     private javax.swing.JButton RentCar;
