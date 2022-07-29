@@ -5,6 +5,10 @@
  */
 package MainApp;
 
+import Libs.DataSource;
+import Libs.ICar;
+import java.util.ArrayList;
+
 
 /**
  *
@@ -178,7 +182,11 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void RemoveCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveCarActionPerformed
         // TODO add your handling code here:
-        removeCarFrame.setVisible(true);
+        //removeCarFrame.setVisible(true);
+        ArrayList<Object> object = DataSource.getInstance().readAllData(DataSource.Type.Car);
+        System.out.println(object);
+        ICar car = (ICar) object.get(0);
+        System.out.println(car.getReturnDate());
     }//GEN-LAST:event_RemoveCarActionPerformed
 
     private void CustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CustomerActionPerformed

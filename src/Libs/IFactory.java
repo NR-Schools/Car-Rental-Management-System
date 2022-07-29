@@ -13,7 +13,7 @@ public abstract class IFactory {
     protected abstract ICar createProduct(String objectRequest);
     
     public ICar doSomething(String object) {
-        ICar color = createProduct(object);
-        return color;
+        ICar car = createProduct(object);
+        return car;
     }
 }

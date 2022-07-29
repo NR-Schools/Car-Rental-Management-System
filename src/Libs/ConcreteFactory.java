@@ -14,9 +14,8 @@ public class ConcreteFactory extends IFactory {
 
     @Override
     protected ICar createProduct(String objectRequest) {
-        if(objectRequest == "Mitsubishi") car =  new MitsubishiCar();
-        if(objectRequest == "Nissan") car =  new NissanCar();
-        if(objectRequest == "Jeep") car =  new JeepCar();
+        if(objectRequest.equals("SUV")) car =  new SUV();
+        else if(objectRequest.equals("Minivan")) car = new Minivan();
         return car;
     }
     
