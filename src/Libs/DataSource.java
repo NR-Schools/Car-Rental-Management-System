@@ -22,9 +22,9 @@ import javax.swing.JOptionPane;
  */
 public class DataSource {
     
-    private String USERNAME = "dummy";
-    private String PASSWORD = "dummy_password";
-    private final String LINK = "jdbc:mysql://localhost:3306?useTimezone=true&serverTimezone=UTC";
+    private String USERNAME = "sql6509591";
+    private String PASSWORD = "UD7kfEHXrR";
+    private final String LINK = "jdbc:mysql://sql6.freemysqlhosting.net:3306?useTimezone=true&serverTimezone=UTC";
     private final String CONNECTOR = "com.mysql.cj.jdbc.Driver";
     
     public enum Type { Customer, Car }
@@ -70,7 +70,7 @@ public class DataSource {
             }
             
             Statement SetDB = sql_con.createStatement();
-            SetDB.executeUpdate("USE sa2;");
+            SetDB.executeUpdate("USE sql6509591;");
             
             Statement Query = sql_con.createStatement();
             Query.executeUpdate(QueryStr);
@@ -95,7 +95,7 @@ public class DataSource {
             String QueryStr = "";
             
             Statement SetDB = sql_con.createStatement();
-            SetDB.executeUpdate("USE sa2;");
+            SetDB.executeUpdate("USE sql6509591;");
             
             switch(type)
             {
@@ -185,7 +185,7 @@ public class DataSource {
             }
             
             Statement SetDB = sql_con.createStatement();
-            SetDB.executeUpdate("USE sa2;");
+            SetDB.executeUpdate("USE sql6509591;");
             
             Statement Query = sql_con.createStatement();
             Query.executeUpdate(QueryStr);
@@ -219,7 +219,7 @@ public class DataSource {
             }
             
             Statement SetDB = sql_con.createStatement();
-            SetDB.executeUpdate("USE sa2;");
+            SetDB.executeUpdate("USE sql6509591;");
             
             
             Statement Query = sql_con.createStatement();
